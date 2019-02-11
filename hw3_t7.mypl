@@ -1,0 +1,11 @@
+# an error case
+# should print out:
+# error: expecting ")", found ";" in parser at line 8 column 15
+fun int f(x: int)
+    if x == 0 then
+        return x;
+    else
+       f(x - 1;
+    end
+end
+

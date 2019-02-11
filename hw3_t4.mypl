@@ -1,0 +1,18 @@
+# variables
+
+# declarations
+var v1 = 0;
+var v2: int = 0;
+var v3: string = "abc";
+var v4: float = nil;
+var v5 = nil;
+var v6: bool = true;
+var v7 = v1 / v2;
+
+# assignment
+set v1 = 3.14;
+set v2 = 5 + 7;
+set v3 = true;
+set v1.v2 = v3;
+set v1.v2.v3 = v1.v2;
+
