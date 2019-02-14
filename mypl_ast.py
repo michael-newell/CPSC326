@@ -161,8 +161,8 @@ class BasicIf(object):
 	statements (the body of the if).
 	"""
 	def __init__(self):
-	self.bool_expr = None # BoolExpr node
-	self.stmt_list = StmtList()
+		self.bool_expr = None # BoolExpr node
+		self.stmt_list = StmtList()
 
 class RValue(ASTNode):
 	"""The base class for rvalue nodes."""
@@ -194,7 +194,7 @@ class CallRValue(RValue):
 	def accept(self, visitor):
 		visitor.visit_call_rvalue(self)
 
-class IDRvalue(RValue):
+class IDRValue(RValue):
 	"""An identifier rvalue consists of a path of one or more identifiers.
 	"""
 	def __init__(self):

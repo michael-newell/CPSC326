@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Author:
+# Author: Michael Newell
 # Assignment: 4
 # Description:
 # Simple script to execute the MyPL parser and pretty printer.
