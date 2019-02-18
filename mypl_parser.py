@@ -67,7 +67,7 @@ class Parser(object):
 		self.__eat(token.STRUCTTYPE, "Expected STRUCT token")
 		s_decl_stmt.struct_id = self.current_token
 		self.__eat(token.ID, "Expected ID token")
-		s_decl_stmt.var_decls.append(self.__vdecls())
+		self.__vdecls(s_decl_stmt.var_decls)
 		self.__eat(token.END, "Expected END token")
 		return s_decl_stmt
 		
@@ -85,6 +85,7 @@ class Parser(object):
 		self.__eat(token.RPAREN, "Expected RPAREN token")
 		fun_decl.stmt_list = self.__bstmts()
 		self.__eat(token.END, "Expected END token")
+		return fun_decl
 		
 	def __bstmt(self):
 		if self.current_token.tokentype == token.VAR:
@@ -139,12 +140,12 @@ class Parser(object):
 				fun.params.append(funParam)
 		#else:
 			#nothing
-	def __vdecls(self):
+	def __vdecls(self, var_decls):
 		v_decl_stmt = ast.VarDeclStmt()
 		if self.current_token.tokentype == token.VAR:
 			self.__vdecl(v_decl_stmt)
-			self.__vdecls()
-		return v_decl_stmt
+			var_decls.append(v_decl_stmt)
+			self.__vdecls(var_decls)
 		#else: nothing
 	
 	def __type(self):
