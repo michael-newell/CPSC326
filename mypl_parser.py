@@ -223,6 +223,7 @@ class Parser(object):
 		self.__eat(token.DO, "Expected DO token")
 		stmt.stmt_list = self.__bstmts()
 		self.__eat(token.END, "Expected END token")
+		
 	def __expr(self):
 		if self.current_token.tokentype == token.LPAREN:
 			SExpr = ast.SimpleExpr()
