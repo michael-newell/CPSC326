@@ -31,6 +31,11 @@ class Lexer(object):
 			self.line += 1
 			self.column = 0
 			return self.next_token()
+		elif self.__peek() == '\t':
+			while self.__peek() == '\t':
+				self.__read()
+				self.column += 1
+				return self.next_token()
 		elif self.__peek() == ' ':
 			while self.__peek() == ' ':
 				self.__read()
@@ -157,7 +162,7 @@ class Lexer(object):
 			symbol = token.SEMICOLON
 			currToken = ';'
 		elif self.__peek() == 'b':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'bool':
@@ -165,7 +170,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 'i':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'int':
@@ -175,7 +180,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 's':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'string':
@@ -187,7 +192,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 'a':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'and':
@@ -195,7 +200,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 'o':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'or':
@@ -203,7 +208,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 'w':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'while':
@@ -211,7 +216,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 'd':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'do':
@@ -219,7 +224,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 't':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'then':
@@ -229,7 +234,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 'e':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'else':
@@ -241,7 +246,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 'f':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'fun':
@@ -253,7 +258,7 @@ class Lexer(object):
 			else:
 				symbol = token.ID
 		elif self.__peek() == 'v':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'var':
@@ -261,7 +266,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 'r':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'return':
@@ -269,7 +274,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID
 		elif self.__peek() == 'n':
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			if currToken == 'new':
@@ -281,7 +286,7 @@ class Lexer(object):
 			else: 
 				symbol = token.ID	
 		else:
-			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
+			while self.__peek() != ' ' and self.__peek() != '' and self.__peek() != '\t' and self.__peek() != '\n' and self.__peek() != '.' and self.__peek() != ';' and self.__peek() != ',' and self.__peek() != '(' and self.__peek() != ')' and self.__peek() != '-' and self.__peek() != '+' and self.__peek() != '%' and self.__peek() != '*' and self.__peek() != '>' and self.__peek() != '<' and self.__peek() != '=' and self.__peek() != '/' and self.__peek() != ':':
 				currToken += self.__read()
 				self.column += 1
 			symbol = token.ID

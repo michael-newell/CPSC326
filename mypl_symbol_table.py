@@ -29,7 +29,7 @@ class SymbolTable(object):
 	def set_info(self, identifier, info):
 		env = self.__environment(identifier)
 		if env is not None:
-		env[identifier] = info
+			env[identifier] = info
 		
 	def push_environment(self):
 		self.scopes.append({})
