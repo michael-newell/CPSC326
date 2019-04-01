@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #
 # Author: Michael Newell
-# Assignment: 6
+# Assignment: 7
 # Description:
 # Simple script to execute the MyPL interpreter.
 #----------------------------------------------------------------------
@@ -16,23 +16,23 @@ import sys
 def main(filename):
 	try:
 		file_stream = open(filename, 'r')
-		hw6(file_stream)
+		hw7(file_stream)
 		file_stream.close()
 	except FileNotFoundError:
 		sys.exit('invalid filename %s' % filename)
 	except error.MyPLError as e:
 		file_stream.close()
 		sys.exit(e)
-		
-def hw6(file_stream):
+
+def hw7(file_stream):
 	the_lexer = lexer.Lexer(file_stream)
 	the_parser = parser.Parser(the_lexer)
 	stmt_list = the_parser.parse()
-	the_type_checker = type_checker.TypeChecker()
-	stmt_list.accept(the_type_checker)
+	#the_type_checker = type_checker.TypeChecker()
+	#stmt_list.accept(the_type_checker)
 	the_interpreter = interpreter.Interpreter()
-	stmt_list.accept(the_interpreter)
-	
+	the_interpreter.run(stmt_list)
+
 if __name__ == '__main__':
 	if len(sys.argv) != 2:
 		sys.exit('Usage: %s file' % sys.argv[0])

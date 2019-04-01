@@ -6,11 +6,19 @@ import mypl_ast as ast
 import mypl_symbol_table as symbol_table
 import mypl_error as error
 
-
+class ReturnException(Exception): pass
 class Interpreter(ast.Visitor):
+	#starts the interpreter
+	def run(self, stmt_list):
+		try:
+			stmt_list.accept(self)
+		except ReturnException:
+			pass
+
 	def __init__(self):
 		self.sym_table = symbol_table.SymbolTable()
 		self.current_value = None
+		self.heap = {}
        
 	def __write(self,msg): 
 		sys.stdout.write(str(msg))
@@ -75,16 +83,25 @@ class Interpreter(ast.Visitor):
 	def visit_var_decl_stmt(self, var_decl):
 		var_decl.var_expr.accept(self)
 		exp_value = self.current_value
+			
 		var_name = var_decl.var_id.lexeme
 		self.sym_table.add_id(var_decl.var_id.lexeme)
 		self.sym_table.set_info(var_decl.var_id.lexeme, exp_value)
 	
 	def visit_struct_decl_stmt(self, struct_decl):
-		''''''
+		env_id = self.sym_table.get_env_id()
+		self.sym_table.add_id(struct_decl.struct_id.lexeme)
+		self.sym_table.set_info(struct_decl.struct_id.lexeme, [env_id, struct_decl])
+
 	def visit_fun_decl_stmt(self, fun_decl):
-		''''''
+		env_id = self.sym_table.get_env_id()
+		self.sym_table.add_id(fun_decl.fun_name.lexeme)
+		self.sym_table.set_info(fun_decl.fun_name.lexeme, [env_id, fun_decl])
+
 	def visit_return_stmt(self, return_stmt):
-		''''''
+		return_stmt.return_expr.accept(self)
+		raise ReturnException()
+		
 		
 	def visit_bool_expr(self, bool_expr):
 		bool_expr.first_expr.accept(self)
@@ -135,11 +152,16 @@ class Interpreter(ast.Visitor):
 		if len(lval.path) == 1:
 			self.sym_table.set_info(identifier, self.current_value)
 		else:
-			''''''
-			#... handle path expressions ...
+			oid = self.sym_table.get_info(identifier)
+			struct_obj = self.heap[oid]
+			for i in lval.path[1:-1]:
+				oid = struct_obj[i.lexeme]
+				struct_obj = self.heap[oid]
+			struct_obj[lval.path[-1].lexeme] = self.current_value
+				
   
-    #def visit_fun_param(self, fun_param):
-    
+	def visit_fun_param(self, fun_param):
+		''''''
 	def visit_simple_rvalue(self, simple_rvalue):
 		if simple_rvalue.val.tokentype == token.INTVAL:
 			self.current_value = int(simple_rvalue.val.lexeme)
@@ -154,8 +176,22 @@ class Interpreter(ast.Visitor):
 		elif simple_rvalue.val.tokentype == token.NIL:
 			self.current_value = None
 			
-    #def visit_new_rvalue(self, new_rvalue):
-    
+	def visit_new_rvalue(self, new_rvalue):
+		struct_info = self.sym_table.get_info(new_rvalue.struct_type.lexeme)
+		curr_env = self.sym_table.get_env_id()
+		self.sym_table.set_env_id(struct_info[0])
+		struct_obj = {}
+		self.sym_table.push_environment()
+		for i in struct_info[1].var_decls:
+			i.var_expr.accept(self)
+			struct_obj[i.var_id.lexeme] = self.current_value
+		self.sym_table.pop_environment()
+		self.sym_table.set_env_id(curr_env)
+		
+		oid = id(struct_obj)
+		self.heap[oid] = struct_obj
+		self.current_value = oid
+		
 	def visit_call_rvalue(self, call_rvalue):
 		# handle built in functions first
 		built_ins = ['print', 'length', 'get', 'readi', 'reads',
@@ -164,7 +200,30 @@ class Interpreter(ast.Visitor):
 			self.__built_in_fun_helper(call_rvalue)
 		else:
 			#... handle user-defined function calls ...
-			''''''
+			fun_info = self.sym_table.get_info(call_rvalue.fun.lexeme)
+			curr_env = self.sym_table.get_env_id()
+			
+			
+			arg_vals = []
+			for i in call_rvalue.args:
+				i.accept(self)
+				arg_vals.append(self.current_value)
+
+			self.sym_table.set_env_id(fun_info[0])
+			self.sym_table.push_environment()
+			
+			count = 0
+			for i in fun_info[1].params:
+				self.sym_table.add_id(i.param_name.lexeme)
+				self.sym_table.set_info(i.param_name.lexeme, arg_vals[count])
+				count += 1
+			try:
+				fun_info[1].stmt_list.accept(self)
+			except ReturnException:
+				pass
+			self.sym_table.pop_environment()
+			self.sym_table.set_env_id(curr_env)
+
 	def __built_in_fun_helper(self, call_rvalue):
 		fun_name = call_rvalue.fun.lexeme
 		arg_vals = []
@@ -230,7 +289,8 @@ class Interpreter(ast.Visitor):
 		var_name = id_rvalue.path[0].lexeme
 		var_val = self.sym_table.get_info(var_name)
 		for path_id in id_rvalue.path[1:]:
-			#... handle path expressions ...
-			''''''
+			struct_obj = self.heap[var_val]
+			var_val = struct_obj[path_id.lexeme]
+		 
 		self.current_value = var_val
 
